@@ -41,6 +41,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
+      backgroundColor: Colors.white,
       body: Consumer<NewsProvider>(builder: (context, provider, childProperty) {
         return provider.isLoading
             ? Center(
@@ -299,15 +300,16 @@ class _HomePageState extends State<HomePage> {
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                                 style: postTitle.copyWith(
-                                    fontWeight: FontWeight.w400),
+                                    fontSize: 15, fontWeight: FontWeight.w400),
                               ),
                               Text(
                                 provider.responseApiModel.articles![index]
                                     .description
                                     .toString(),
-                                maxLines: 3,
+                                maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
-                                style: postDescription,
+                                style: postDescription.copyWith(
+                                    fontSize: 14, color: Colors.black54),
                               ),
                             ],
                           ),
@@ -327,8 +329,8 @@ class _HomePageState extends State<HomePage> {
                                           .toString(),
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
-                                      style:
-                                          author.copyWith(color: Colors.black),
+                                      style: author.copyWith(
+                                          color: Colors.black, fontSize: 14),
                                     ),
                                     Text(
                                       provider.responseApiModel.articles![index]
@@ -337,7 +339,7 @@ class _HomePageState extends State<HomePage> {
                                       maxLines: 3,
                                       overflow: TextOverflow.ellipsis,
                                       style: publisher.copyWith(
-                                          color: Colors.black),
+                                          color: Colors.black, fontSize: 12),
                                     ),
                                   ],
                                 ),
@@ -412,9 +414,33 @@ class _HomePageState extends State<HomePage> {
                   size: 25,
                 ),
               ),
-              Text(
-                'NewsProvider247',
-                style: titleTextStyle,
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'NewsProvider247',
+                    style: titleTextStyle,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.arrow_drop_down,
+                        color: Colors.white,
+                      ),
+                      Text(
+                        'Canada',
+                        style: postContent.copyWith(
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w400),
+                      ),
+                      SizedBox(width: 10,)
+                    ],
+                  )
+                ],
               ),
               IconButton(
                 onPressed: () {},

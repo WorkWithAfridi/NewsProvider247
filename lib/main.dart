@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          primarySwatch: Colors.yellow,
+          primarySwatch: Colors.pink,
         ),
         initialRoute: HomePage.routeName,
         routes: {
