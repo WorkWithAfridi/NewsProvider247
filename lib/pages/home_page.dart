@@ -14,10 +14,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String filter = 'science';
+
   void getData() {
     NewsProvider newsProvider =
         Provider.of<NewsProvider>(context, listen: false);
-    newsProvider.getNews();
+    newsProvider.getNews(filter);
   }
 
   @override
@@ -41,11 +43,13 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: backgroundColor,
       body: Consumer<NewsProvider>(builder: (context, provider, childProperty) {
         return provider.isLoading
             ? Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(
+                  color: primaryColor,
+                ),
               )
             : Container(
                 height: MediaQuery.of(context).size.height,
@@ -59,9 +63,9 @@ class _HomePageState extends State<HomePage> {
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                             colors: [
-                              Colors.orange.withOpacity(0),
-                              Colors.orangeAccent.withOpacity(.05),
-                              Colors.black87.withOpacity(.25),
+                              Colors.black.withOpacity(1),
+                              Colors.black.withOpacity(.25),
+                              Colors.black.withOpacity(.4),
                               Colors.black.withOpacity(.9),
                               //add more colors for gradient
                             ],
@@ -84,15 +88,237 @@ class _HomePageState extends State<HomePage> {
                       child: Column(
                         children: [
                           Container(
-                            height: MediaQuery.of(context).size.height * .55,
+                            height: 70,
+                          ),
+                          SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  width: 15,
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    provider.changingFilter = true;
+
+                                    setState(() {
+                                      filter = 'science';
+                                    });
+                                    getData();
+                                  },
+                                  child: Chip(
+                                    elevation: 6,
+                                    backgroundColor: filter == 'science'
+                                        ? primaryColor
+                                        : backgroundColor,
+                                    label: Text(
+                                      'Science',
+                                      style: postTitle.copyWith(
+                                          color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    provider.changingFilter = true;
+                                    setState(() {
+                                      filter = 'business';
+                                    });
+                                    getData();
+                                  },
+                                  child: Chip(
+                                    elevation: 6,
+                                    backgroundColor: filter == 'business'
+                                        ? primaryColor
+                                        : backgroundColor,
+                                    label: Text(
+                                      'Business',
+                                      style: postTitle.copyWith(
+                                          color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    provider.changingFilter = true;
+                                    setState(() {
+                                      filter = 'general';
+                                    });
+                                    getData();
+                                  },
+                                  child: Chip(
+                                    elevation: 6,
+                                    backgroundColor: filter == 'general'
+                                        ? primaryColor
+                                        : backgroundColor,
+                                    label: Text(
+                                      'General',
+                                      style: postTitle.copyWith(
+                                          color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    provider.changingFilter = true;
+                                    setState(() {
+                                      filter = 'health';
+                                    });
+                                    getData();
+                                  },
+                                  child: Chip(
+                                    elevation: 6,
+                                    backgroundColor: filter == 'health'
+                                        ? primaryColor
+                                        : backgroundColor,
+                                    label: Text(
+                                      'Health',
+                                      style: postTitle.copyWith(
+                                          color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    provider.changingFilter = true;
+                                    setState(() {
+                                      filter = 'entertainment';
+                                    });
+                                    getData();
+                                  },
+                                  child: Chip(
+                                    elevation: 6,
+                                    backgroundColor: filter == 'entertainment'
+                                        ? primaryColor
+                                        : backgroundColor,
+                                    label: Text(
+                                      'Entertainment',
+                                      style: postTitle.copyWith(
+                                          color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    provider.changingFilter = true;
+                                    setState(() {
+                                      filter = 'sports';
+                                    });
+                                    getData();
+                                  },
+                                  child: Chip(
+                                    elevation: 6,
+                                    backgroundColor: filter == 'sports'
+                                        ? primaryColor
+                                        : backgroundColor,
+                                    label: Text(
+                                      'Sports',
+                                      style: postTitle.copyWith(
+                                          color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    provider.changingFilter = true;
+                                    setState(() {
+                                      filter = 'technology';
+                                    });
+                                    getData();
+                                  },
+                                  child: Chip(
+                                    elevation: 6,
+                                    backgroundColor: filter == 'technology'
+                                        ? primaryColor
+                                        : backgroundColor,
+                                    label: Text(
+                                      'Teachnology',
+                                      style: postTitle.copyWith(
+                                          color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 15,
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            height: MediaQuery.of(context).size.height * .35,
                             width: MediaQuery.of(context).size.width,
                             color: Colors.transparent,
                           ),
                           getBannerDetails(),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 15),
+                            child: provider.changingFilter
+                                ? LinearProgressIndicator(
+                                    color: primaryColor,
+                                  )
+                                : Divider(
+                                    thickness: 2,
+                                  ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 15),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.all(5),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        'Top Stories',
+                                        style: header.copyWith(
+                                            color: Colors.white, fontSize: 15),
+                                      ),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Icon(
+                                        Icons.sort,
+                                        color: Colors.white,
+                                      ),
+                                    ],
+                                  ),
+                                  color: primaryColor,
+                                ),
+                              ],
+                            ),
+                          ),
                           Container(
-                            color: Colors.white,
+                            // decoration: BoxDecoration(
+                            //   // color: backgroundColor,
+                            //   borderRadius: BorderRadius.only(
+                            //     topLeft: Radius.circular(15),
+                            //     topRight: Radius.circular(15),
+                            //   ),
+                            // ),
                             padding: EdgeInsets.symmetric(
-                                vertical: 20, horizontal: 10),
+                                vertical: 10, horizontal: 10),
                             child: ListView.builder(
                               physics: NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
@@ -111,45 +337,6 @@ class _HomePageState extends State<HomePage> {
                 ),
               );
       }),
-      // bottomNavigationBar: BottomNavigationBar(
-      //   showSelectedLabels: false,
-      //   showUnselectedLabels: false,
-      //   type: BottomNavigationBarType.fixed,
-      //   selectedItemColor: Colors.black,
-      //   unselectedItemColor: Colors.black.withOpacity(.75),
-      //   items: [
-      //     BottomNavigationBarItem(
-      //         icon: Icon(
-      //           FontAwesomeIcons.rssSquare,
-      //           // color: Colors.black,
-      //         ),
-      //         label: ''),
-      //     BottomNavigationBarItem(
-      //         icon: Icon(
-      //           FontAwesomeIcons.bookmark,
-      //           // color: Colors.black,
-      //         ),
-      //         label: ''),
-      //     BottomNavigationBarItem(
-      //         icon: Icon(
-      //           FontAwesomeIcons.edit,
-      //           // color: Colors.black,
-      //         ),
-      //         label: ''),
-      //     BottomNavigationBarItem(
-      //         icon: Icon(
-      //           FontAwesomeIcons.bell,
-      //           // color: Colors.black,
-      //         ),
-      //         label: ''),
-      //     BottomNavigationBarItem(
-      //         icon: Icon(
-      //           FontAwesomeIcons.user,
-      //           // color: Colors.black,
-      //         ),
-      //         label: ''),
-      //   ],
-      // ),
     );
   }
 
@@ -167,9 +354,9 @@ class _HomePageState extends State<HomePage> {
                 padding: EdgeInsets.all(5),
                 child: Text(
                   'Trending',
-                  style: author.copyWith(color: Colors.black87),
+                  style: header.copyWith(color: Colors.white, fontSize: 15),
                 ),
-                color: Colors.yellow,
+                color: primaryColor,
               ),
               SizedBox(
                 height: 3,
@@ -199,7 +386,7 @@ class _HomePageState extends State<HomePage> {
                         style: author,
                       ),
                       Text(
-                        provider.responseApiModel.articles![0].source
+                        provider.responseApiModel.articles![0].source!.name
                             .toString(),
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
@@ -219,7 +406,7 @@ class _HomePageState extends State<HomePage> {
                       IconButton(
                         onPressed: () {},
                         icon: Icon(
-                          Icons.expand,
+                          FontAwesomeIcons.thumbsUp,
                           color: Colors.white,
                         ),
                       ),
@@ -236,13 +423,23 @@ class _HomePageState extends State<HomePage> {
 
   Widget getBannerImage(BuildContext context) {
     return Consumer<NewsProvider>(builder: (context, provider, childProperty) {
+      print(
+        provider.responseApiModel.articles![0].urlToImage.toString(),
+      );
       return Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
-        child: Image.network(
-          provider.responseApiModel.articles![0].urlToImage.toString(),
-          fit: BoxFit.fitHeight,
-        ),
+        child: provider.responseApiModel.articles![0].urlToImage.toString() ==
+                'null'
+            ? Center(
+              child: CircularProgressIndicator(
+                  color: primaryColor,
+                ),
+            )
+            : Image.network(
+                provider.responseApiModel.articles![0].urlToImage.toString(),
+                fit: BoxFit.fitHeight,
+              ),
       );
     });
   }
@@ -258,126 +455,128 @@ class _HomePageState extends State<HomePage> {
           ),
         );
       },
-      child:
-          Consumer<NewsProvider>(builder: (context, provider, childProperty) {
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              height: 150,
-              width: double.infinity,
-              // color: Colors.red,
-              child: Row(
-                children: [
-                  Flexible(
-                    flex: 1,
-                    child: Container(
-                      height: double.infinity,
-                      width: double.infinity,
-                      child: Image.network(
-                        provider.responseApiModel.articles![index].urlToImage
-                            .toString(),
-                        fit: BoxFit.fill,
-                      ),
+      child: Card(
+        elevation: 10,
+        color: backgroundColor,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        child:
+            Consumer<NewsProvider>(builder: (context, provider, childProperty) {
+          return Container(
+            height: 150,
+            width: double.infinity,
+            // color: Colors.red,
+            child: Row(
+              children: [
+                Flexible(
+                  flex: 1,
+                  child: Container(
+                    height: double.infinity,
+                    width: double.infinity,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(15),
+                          bottomLeft: Radius.circular(15)),
+                      child: provider
+                                  .responseApiModel.articles![index].urlToImage
+                                  .toString() ==
+                              'null'
+                          ? Center(child: CircularProgressIndicator( color: primaryColor,))
+                          : Image.network(
+                              provider
+                                  .responseApiModel.articles![index].urlToImage
+                                  .toString(),
+                              fit: BoxFit.cover,
+                            ),
                     ),
                   ),
-                  Flexible(
-                    flex: 2,
-                    child: Container(
-                      padding: EdgeInsets.all(5),
-                      height: double.infinity,
-                      width: double.infinity,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Column(
-                            children: [
-                              Text(
-                                provider.responseApiModel.articles![index].title
-                                    .toString(),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: postTitle.copyWith(
-                                    fontSize: 15, fontWeight: FontWeight.w400),
-                              ),
-                              Text(
-                                provider.responseApiModel.articles![index]
-                                    .description
-                                    .toString(),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: postDescription.copyWith(
-                                    fontSize: 14, color: Colors.black54),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Flexible(
-                                flex: 1,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      provider.responseApiModel.articles![index]
-                                          .author
-                                          .toString(),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: author.copyWith(
-                                          color: Colors.black, fontSize: 14),
-                                    ),
-                                    Text(
-                                      provider.responseApiModel.articles![index]
-                                          .source!.name
-                                          .toString(),
-                                      maxLines: 3,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: publisher.copyWith(
-                                          color: Colors.black, fontSize: 12),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Row(
+                ),
+                Flexible(
+                  flex: 2,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    height: double.infinity,
+                    width: double.infinity,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Column(
+                          children: [
+                            Text(
+                              provider.responseApiModel.articles![index].title
+                                  .toString(),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: postTitle.copyWith(
+                                  fontSize: 15, fontWeight: FontWeight.w400),
+                            ),
+                            Text(
+                              provider
+                                  .responseApiModel.articles![index].description
+                                  .toString(),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: postDescription.copyWith(
+                                  fontSize: 14, color: Colors.white60),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Flexible(
+                              flex: 1,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(
-                                      Icons.bookmark,
-                                      color: Colors.black,
-                                    ),
+                                  Text(
+                                    provider.responseApiModel.articles![index]
+                                        .author
+                                        .toString(),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: author.copyWith(
+                                        color: Colors.white, fontSize: 14),
                                   ),
-                                  IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(
-                                      Icons.expand,
-                                      color: Colors.black,
-                                    ),
+                                  Text(
+                                    provider.responseApiModel.articles![index]
+                                        .source!.name
+                                        .toString(),
+                                    maxLines: 3,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: publisher.copyWith(
+                                        color: Colors.white60, fontSize: 12),
                                   ),
                                 ],
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                IconButton(
+                                  onPressed: () {},
+                                  icon:
+                                      Icon(Icons.bookmark, color: Colors.white),
+                                ),
+                                IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(FontAwesomeIcons.thumbsUp,
+                                      color: Colors.white),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            Divider(
-              height: 15,
-              color: Colors.black,
-            )
-          ],
-        );
-      }),
+          );
+        }),
+      ),
     );
   }
 
@@ -419,7 +618,7 @@ class _HomePageState extends State<HomePage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    'NewsProvider247',
+                    'NewsProvider 247',
                     style: titleTextStyle,
                   ),
                   Row(
@@ -437,7 +636,9 @@ class _HomePageState extends State<HomePage> {
                             fontSize: 15,
                             fontWeight: FontWeight.w400),
                       ),
-                      SizedBox(width: 10,)
+                      SizedBox(
+                        width: 10,
+                      )
                     ],
                   )
                 ],

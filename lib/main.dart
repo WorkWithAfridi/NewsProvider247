@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:newprovider247/pages/home_page.dart';
+import 'package:newprovider247/pages/splash_screen_page.dart';
 import 'package:newprovider247/provider/NewsProvider.dart';
 import 'package:provider/provider.dart';
 
@@ -14,17 +15,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context)=>NewsProvider())
-      ],
+      providers: [ChangeNotifierProvider(create: (context) => NewsProvider())],
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          primarySwatch: Colors.pink,
+          // primarySwatch: Color(0xffF78B00) as MaterialColor,
         ),
-        initialRoute: HomePage.routeName,
+        initialRoute: SplashScreenPage.routeName,
         routes: {
-          HomePage.routeName : (context) => HomePage(),
+          HomePage.routeName: (context) => HomePage(),
+          SplashScreenPage.routeName: (context) => SplashScreenPage(),
         },
       ),
     );
