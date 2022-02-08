@@ -37,6 +37,9 @@ dependencies:
   google_fonts: any
   provider: any
   font_awesome_flutter: any
+  http: any
+  html_unescape: any
+  intl: any
 
 dev_dependencies:
   flutter_test:
