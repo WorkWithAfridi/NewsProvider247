@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:html_unescape/html_unescape.dart';
-import 'package:intl/intl.dart';
+import 'package:newprovider247/pages/open_webview.dart';
 import 'package:newprovider247/provider/NewsProvider.dart';
 import 'package:provider/provider.dart';
 
@@ -327,6 +327,34 @@ class _ArticlePageState extends State<ArticlePage> {
                                     fontWeight: FontWeight.w200),
                               ),
                             ),
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              GestureDetector(
+                                onTap: () async {
+                                  Navigator.of(context).pushNamed(
+                                      OpenWebView.routeName,
+                                      arguments: {
+                                        'Url': provider.responseApiModel
+                                            .articles![widget.index].url
+                                      });
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 15, vertical: 5),
+                                  child: Text(
+                                    'Learn more',
+                                    style: header.copyWith(
+                                        color: Colors.white, fontSize: 15),
+                                  ),
+                                  color: primaryColor,
+                                ),
+                              ),
+                            ],
                           ),
                           SizedBox(
                             height: 15,

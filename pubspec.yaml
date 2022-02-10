@@ -41,6 +41,8 @@ dependencies:
   html_unescape: any
   intl: any
   lottie: any
+  pull_to_refresh: any
+  webview_flutter: any
 
 dev_dependencies:
   flutter_test:

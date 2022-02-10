@@ -4,6 +4,7 @@ import 'package:newprovider247/pages/article_page.dart';
 import 'package:newprovider247/provider/NewsProvider.dart';
 import 'package:newprovider247/resources/global_variables.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = '/HomePage';
@@ -15,6 +16,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   String filter = 'science';
+  String filterCountry = 'ca';
 
   void getData() {
     NewsProvider newsProvider =
@@ -28,6 +30,9 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     getData();
   }
+
+  RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
 
   @override
   Widget build(BuildContext context) {
@@ -83,253 +88,277 @@ class _HomePageState extends State<HomePage> {
                             ),
                       ),
                     ),
-                    SingleChildScrollView(
-                      physics: BouncingScrollPhysics(),
-                      child: Column(
-                        children: [
-                          Container(
-                            height: 70,
-                          ),
-                          SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              children: [
-                                SizedBox(
-                                  width: 15,
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    provider.changingFilter = true;
+                    SmartRefresher(
+                      enablePullDown: true,
 
-                                    setState(() {
-                                      filter = 'science';
-                                    });
-                                    getData();
-                                  },
-                                  child: Chip(
-                                    elevation: 6,
-                                    backgroundColor: filter == 'science'
-                                        ? primaryColor
-                                        : backgroundColor,
-                                    label: Text(
-                                      'Science',
-                                      style: postTitle.copyWith(
-                                          color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    provider.changingFilter = true;
-                                    setState(() {
-                                      filter = 'business';
-                                    });
-                                    getData();
-                                  },
-                                  child: Chip(
-                                    elevation: 6,
-                                    backgroundColor: filter == 'business'
-                                        ? primaryColor
-                                        : backgroundColor,
-                                    label: Text(
-                                      'Business',
-                                      style: postTitle.copyWith(
-                                          color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    provider.changingFilter = true;
-                                    setState(() {
-                                      filter = 'general';
-                                    });
-                                    getData();
-                                  },
-                                  child: Chip(
-                                    elevation: 6,
-                                    backgroundColor: filter == 'general'
-                                        ? primaryColor
-                                        : backgroundColor,
-                                    label: Text(
-                                      'General',
-                                      style: postTitle.copyWith(
-                                          color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    provider.changingFilter = true;
-                                    setState(() {
-                                      filter = 'health';
-                                    });
-                                    getData();
-                                  },
-                                  child: Chip(
-                                    elevation: 6,
-                                    backgroundColor: filter == 'health'
-                                        ? primaryColor
-                                        : backgroundColor,
-                                    label: Text(
-                                      'Health',
-                                      style: postTitle.copyWith(
-                                          color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    provider.changingFilter = true;
-                                    setState(() {
-                                      filter = 'entertainment';
-                                    });
-                                    getData();
-                                  },
-                                  child: Chip(
-                                    elevation: 6,
-                                    backgroundColor: filter == 'entertainment'
-                                        ? primaryColor
-                                        : backgroundColor,
-                                    label: Text(
-                                      'Entertainment',
-                                      style: postTitle.copyWith(
-                                          color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    provider.changingFilter = true;
-                                    setState(() {
-                                      filter = 'sports';
-                                    });
-                                    getData();
-                                  },
-                                  child: Chip(
-                                    elevation: 6,
-                                    backgroundColor: filter == 'sports'
-                                        ? primaryColor
-                                        : backgroundColor,
-                                    label: Text(
-                                      'Sports',
-                                      style: postTitle.copyWith(
-                                          color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    provider.changingFilter = true;
-                                    setState(() {
-                                      filter = 'technology';
-                                    });
-                                    getData();
-                                  },
-                                  child: Chip(
-                                    elevation: 6,
-                                    backgroundColor: filter == 'technology'
-                                        ? primaryColor
-                                        : backgroundColor,
-                                    label: Text(
-                                      'Teachnology',
-                                      style: postTitle.copyWith(
-                                          color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 15,
-                                ),
-                              ],
+                      // enablePullUp: true,
+                      physics: BouncingScrollPhysics(),
+                      onRefresh: () async {
+                        getData();
+                        await Future.delayed(
+                          Duration(seconds: 2),
+                        );
+
+                        setState(
+                          () {
+                            _refreshController.loadComplete();
+                            _refreshController.refreshCompleted();
+                            // print('done loading');
+                          },
+                        );
+                      },
+                      controller: _refreshController,
+                      child: SingleChildScrollView(
+                        physics: NeverScrollableScrollPhysics(),
+                        child: Column(
+                          children: [
+                            Container(
+                              height: 70,
                             ),
-                          ),
-                          Container(
-                            height: MediaQuery.of(context).size.height * .35,
-                            width: MediaQuery.of(context).size.width,
-                            color: Colors.transparent,
-                          ),
-                          getBannerDetails(),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 15),
-                            child: provider.changingFilter
-                                ? LinearProgressIndicator(
+                            SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    width: 15,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      provider.changingFilter = true;
+
+                                      setState(() {
+                                        filter = 'science';
+                                      });
+                                      getData();
+                                    },
+                                    child: Chip(
+                                      elevation: 6,
+                                      backgroundColor: filter == 'science'
+                                          ? primaryColor
+                                          : backgroundColor,
+                                      label: Text(
+                                        'Science',
+                                        style: postTitle.copyWith(
+                                            color: Colors.white),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      provider.changingFilter = true;
+                                      setState(() {
+                                        filter = 'business';
+                                      });
+                                      getData();
+                                    },
+                                    child: Chip(
+                                      elevation: 6,
+                                      backgroundColor: filter == 'business'
+                                          ? primaryColor
+                                          : backgroundColor,
+                                      label: Text(
+                                        'Business',
+                                        style: postTitle.copyWith(
+                                            color: Colors.white),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      provider.changingFilter = true;
+                                      setState(() {
+                                        filter = 'general';
+                                      });
+                                      getData();
+                                    },
+                                    child: Chip(
+                                      elevation: 6,
+                                      backgroundColor: filter == 'general'
+                                          ? primaryColor
+                                          : backgroundColor,
+                                      label: Text(
+                                        'General',
+                                        style: postTitle.copyWith(
+                                            color: Colors.white),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      provider.changingFilter = true;
+                                      setState(() {
+                                        filter = 'health';
+                                      });
+                                      getData();
+                                    },
+                                    child: Chip(
+                                      elevation: 6,
+                                      backgroundColor: filter == 'health'
+                                          ? primaryColor
+                                          : backgroundColor,
+                                      label: Text(
+                                        'Health',
+                                        style: postTitle.copyWith(
+                                            color: Colors.white),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      provider.changingFilter = true;
+                                      setState(() {
+                                        filter = 'entertainment';
+                                      });
+                                      getData();
+                                    },
+                                    child: Chip(
+                                      elevation: 6,
+                                      backgroundColor: filter == 'entertainment'
+                                          ? primaryColor
+                                          : backgroundColor,
+                                      label: Text(
+                                        'Entertainment',
+                                        style: postTitle.copyWith(
+                                            color: Colors.white),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      provider.changingFilter = true;
+                                      setState(() {
+                                        filter = 'sports';
+                                      });
+                                      getData();
+                                    },
+                                    child: Chip(
+                                      elevation: 6,
+                                      backgroundColor: filter == 'sports'
+                                          ? primaryColor
+                                          : backgroundColor,
+                                      label: Text(
+                                        'Sports',
+                                        style: postTitle.copyWith(
+                                            color: Colors.white),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      provider.changingFilter = true;
+                                      setState(() {
+                                        filter = 'technology';
+                                      });
+                                      getData();
+                                    },
+                                    child: Chip(
+                                      elevation: 6,
+                                      backgroundColor: filter == 'technology'
+                                          ? primaryColor
+                                          : backgroundColor,
+                                      label: Text(
+                                        'Teachnology',
+                                        style: postTitle.copyWith(
+                                            color: Colors.white),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 15,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              height: MediaQuery.of(context).size.height * .35,
+                              width: MediaQuery.of(context).size.width,
+                              color: Colors.transparent,
+                            ),
+                            getBannerDetails(),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15),
+                              child: provider.changingFilter
+                                  ? LinearProgressIndicator(
+                                      color: primaryColor,
+                                    )
+                                  : Divider(
+                                      thickness: 2,
+                                    ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.all(5),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          'Top Stories',
+                                          style: header.copyWith(
+                                              color: Colors.white,
+                                              fontSize: 15),
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Icon(
+                                          Icons.sort,
+                                          color: Colors.white,
+                                        ),
+                                      ],
+                                    ),
                                     color: primaryColor,
-                                  )
-                                : Divider(
-                                    thickness: 2,
                                   ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 15),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.all(5),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        'Top Stories',
-                                        style: header.copyWith(
-                                            color: Colors.white, fontSize: 15),
-                                      ),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Icon(
-                                        Icons.sort,
-                                        color: Colors.white,
-                                      ),
-                                    ],
-                                  ),
-                                  color: primaryColor,
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                          Container(
-                            // decoration: BoxDecoration(
-                            //   // color: backgroundColor,
-                            //   borderRadius: BorderRadius.only(
-                            //     topLeft: Radius.circular(15),
-                            //     topRight: Radius.circular(15),
-                            //   ),
-                            // ),
-                            padding: EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 10),
-                            child: ListView.builder(
-                              physics: NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount:
-                                  provider.responseApiModel.articles?.length,
-                              itemBuilder: (context, index) {
-                                return getPost(index);
-                              },
+                            Container(
+                              // decoration: BoxDecoration(
+                              //   // color: backgroundColor,
+                              //   borderRadius: BorderRadius.only(
+                              //     topLeft: Radius.circular(15),
+                              //     topRight: Radius.circular(15),
+                              //   ),
+                              // ),
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 10),
+                              child: ListView.builder(
+                                physics: NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount:
+                                    provider.responseApiModel.articles?.length,
+                                itemBuilder: (context, index) {
+                                  return getPost(index);
+                                },
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                     getAppBar(),
@@ -432,10 +461,10 @@ class _HomePageState extends State<HomePage> {
         child: provider.responseApiModel.articles![0].urlToImage.toString() ==
                 'null'
             ? Center(
-              child: CircularProgressIndicator(
+                child: CircularProgressIndicator(
                   color: primaryColor,
                 ),
-            )
+              )
             : Image.network(
                 provider.responseApiModel.articles![0].urlToImage.toString(),
                 fit: BoxFit.fitHeight,
@@ -480,7 +509,10 @@ class _HomePageState extends State<HomePage> {
                                   .responseApiModel.articles![index].urlToImage
                                   .toString() ==
                               'null'
-                          ? Center(child: CircularProgressIndicator( color: primaryColor,))
+                          ? Center(
+                              child: CircularProgressIndicator(
+                              color: primaryColor,
+                            ))
                           : Image.network(
                               provider
                                   .responseApiModel.articles![index].urlToImage
@@ -627,12 +659,12 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       Icon(
                         Icons.arrow_drop_down,
-                        color: Colors.white,
+                        color: Colors.white.withOpacity(.7),
                       ),
                       Text(
                         'Canada',
                         style: postContent.copyWith(
-                            color: Colors.white,
+                            color: Colors.white.withOpacity(.7),
                             fontSize: 15,
                             fontWeight: FontWeight.w400),
                       ),

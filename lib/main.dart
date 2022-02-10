@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:newprovider247/pages/home_page.dart';
+import 'package:newprovider247/pages/open_webview.dart';
 import 'package:newprovider247/pages/splash_screen_page.dart';
 import 'package:newprovider247/provider/NewsProvider.dart';
 import 'package:provider/provider.dart';
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
         routes: {
           HomePage.routeName: (context) => HomePage(),
           SplashScreenPage.routeName: (context) => SplashScreenPage(),
+          OpenWebView.routeName: (context) => OpenWebView()
         },
       ),
     );
